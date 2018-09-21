@@ -26,6 +26,19 @@ DEVICE_PACKAGE_OVERLAYS += vendor/lucid/overlay
 # Packages
 include vendor/lucid/configs/packages.mk
 
+# Include support for GApps backup
+PRODUCT_COPY_FILES += \
+    vendor/lucid/prebuilt/bin/backuptool.sh:install/bin/backuptool.sh \
+    vendor/lucid/prebuilt/bin/backuptool.functions:install/bin/backuptool.functions \
+    vendor/lucid/prebuilt/bin/50-backuptool.sh:system/addon.d/50-backuptool.sh
+
+ifeq ($(AB_OTA_UPDATER),true)
+PRODUCT_COPY_FILES += \
+    vendor/lucid/prebuilt/bin/backuptool_ab.sh:system/bin/backuptool_ab.sh \
+    vendor/lucid/prebuilt/bin/backuptool_ab.functions:system/bin/backuptool_ab.functions \
+    vendor/lucid/prebuilt/bin/backuptool_postinstall.sh:system/bin/backuptool_postinstall.sh
+endif
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/handheld_core_hardware.xml \
